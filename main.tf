@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     yandex = {
-      source = "yandex-cloud/yandex"
+      source  = "yandex-cloud/yandex"
       version = "0.129.0"
     }
   }
@@ -11,7 +11,7 @@ terraform {
 variable "yc_token" {}
 
 provider "yandex" {
-  zone = "ru-central1-a"
+  zone  = "ru-central1-a"
   token = var.yc_token
 }
 
@@ -31,7 +31,7 @@ resource "yandex_compute_instance" "default" {
   }
 
   network_interface {
-    subnet_id = "${yandex_vpc_subnet.default.id}"
+    subnet_id = yandex_vpc_subnet.default.id
   }
 
   metadata = {
@@ -45,16 +45,16 @@ resource "yandex_vpc_network" "default" {
 
 resource "yandex_vpc_subnet" "default" {
   zone           = "ru-central1-a"
-  network_id     = "${yandex_vpc_network.default.id}"
+  network_id     = yandex_vpc_network.default.id
   v4_cidr_blocks = ["10.5.0.0/24"]
   folder_id      = "b1gcj7qebvdr55der69j"
 }
 
 resource "yandex_compute_disk" "default" {
-  name     = "disk-name"
-  type     = "network-ssd"
-  zone     = "ru-central1-a"
-  image_id = "fd83s8u085j3mq231ago"
+  name      = "disk-name"
+  type      = "network-ssd"
+  zone      = "ru-central1-a"
+  image_id  = "fd83s8u085j3mq231ago"
   folder_id = "b1gcj7qebvdr55der69j"
 
   labels = {
